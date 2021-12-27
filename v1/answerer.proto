@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package labolith.answerer.v1;
+
+option go_package = "github.com/110y/answerer-api/v1;answerer";
+
+import "grpc/channelz/v1/channelz.proto";
+
+service Answerer {
+  rpc GetChannelz(GetChannelzRequest) returns (GetChannelzResponse);
+}
+
+message GetChannelzRequest {
+  string name = 1;
+  string namespace = 2;
+  KubernetesKind kind = 3;
+  uint32 port = 4;
+}
+
+message GetChannelzResponse {
+  map<string, Channelz> channelz = 1;
+}
+
+message Channelz {
+  Channel channel = 1;
+  repeated Server servers = 2;
+}
+
+message Channel {
+  grpc.channelz.v1.Channel channel = 1;
+}
+
+message Server {}
+
+enum KubernetesKind {
+  UNSPECIFIED = 0;
+  POD = 1;
+  SERVICE = 2;
+  DEPLOYMENT = 3;
+}
