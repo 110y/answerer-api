@@ -46,7 +46,7 @@ load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 protobuf_deps()
 go_rules_dependencies()
 
-go_register_toolchains(version = "1.17.1")
+go_register_toolchains(version = "1.18beta1")
 gazelle_dependencies()
 
 go_repository(
