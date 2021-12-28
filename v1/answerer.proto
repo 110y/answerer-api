@@ -28,9 +28,13 @@ message Channelz {
 
 message Channel {
   grpc.channelz.v1.Channel channel = 1;
+  grpc.channelz.v1.Socket socket = 2;
 }
 
-message Server {}
+message Server {
+  grpc.channelz.v1.Server server = 1;
+  grpc.channelz.v1.Socket socket = 2;
+}
 
 enum KubernetesKind {
   UNSPECIFIED = 0;
