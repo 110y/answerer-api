@@ -1,5 +1,16 @@
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+load("@io_bazel_rules_go//proto:compiler.bzl", "go_proto_compiler")
+
+go_proto_compiler(
+    name = "protoc_gen_validate",
+    options = [
+        "lang=go",
+    ],
+    plugin = "@protoc_gen_validate//:protoc-gen-validate",
+    suffix = ".pb.validate.go",
+    visibility = ["//visibility:public"],
+)
 
 proto_library(
     name = "answerer_proto",
@@ -12,7 +23,7 @@ proto_library(
 
 go_proto_library(
     name = "answerer_go_proto",
-    compilers = ["@io_bazel_rules_go//proto:go_grpc"],
+    compilers = ["@io_bazel_rules_go//proto:go_grpc", "protoc_gen_validate"],
     importpath = "github.com/110y/answerer-api/v1",
     protos = [":answerer_proto"],
     visibility = ["//visibility:public"],

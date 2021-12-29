@@ -14,4 +14,4 @@ $(BAZELISK):
 .PHONY: pb
 pb: $(BAZELISK)
 	@$(BAZELISK) build //v1:answerer_go_proto
-	@cp -f ./bazel-bin/v1/answerer_go_proto_/github.com/110y/answerer-api/v1/answerer.pb.go ./v1/
+	@cp -f ./bazel-bin/v1/answerer_go_proto_/github.com/110y/answerer-api/v1/answerer.pb.*.go ./v1/

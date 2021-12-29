@@ -62,3 +62,12 @@ git_repository(
     commit = "8e3fec8612bc0708e857950dccadfd5063703e04",
     remote = "https://github.com/grpc/grpc-proto",
 )
+
+git_repository(
+    name = "protoc_gen_validate",
+    commit = "8c0f6372216272771488d63323787e86377aefe0",
+    remote = "https://github.com/envoyproxy/protoc-gen-validate",
+)
+
+load("@protoc_gen_validate//:dependencies.bzl", protoc_gen_validate_deps = "go_third_party")
+protoc_gen_validate_deps()
