@@ -507,33 +507,38 @@ func (m *Channel) validate(all bool) error {
 		}
 	}
 
-	if all {
-		switch v := interface{}(m.GetSocket()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ChannelValidationError{
-					field:  "Socket",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+	for idx, item := range m.GetSockets() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ChannelValidationError{
+						field:  fmt.Sprintf("Sockets[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ChannelValidationError{
+						field:  fmt.Sprintf("Sockets[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ChannelValidationError{
-					field:  "Socket",
+				return ChannelValidationError{
+					field:  fmt.Sprintf("Sockets[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetSocket()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ChannelValidationError{
-				field:  "Socket",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+
 	}
 
 	if len(errors) > 0 {
@@ -662,33 +667,38 @@ func (m *Server) validate(all bool) error {
 		}
 	}
 
-	if all {
-		switch v := interface{}(m.GetSocket()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ServerValidationError{
-					field:  "Socket",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
+	for idx, item := range m.GetSockets() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ServerValidationError{
+						field:  fmt.Sprintf("Sockets[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ServerValidationError{
+						field:  fmt.Sprintf("Sockets[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
 			}
-		case interface{ Validate() error }:
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ServerValidationError{
-					field:  "Socket",
+				return ServerValidationError{
+					field:  fmt.Sprintf("Sockets[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
-				})
+				}
 			}
 		}
-	} else if v, ok := interface{}(m.GetSocket()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ServerValidationError{
-				field:  "Socket",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+
 	}
 
 	if len(errors) > 0 {
