@@ -22,7 +22,7 @@ message GetChannelzResponse {
 }
 
 message Channelz {
-  Channel channel = 1;
+  repeated Channel channels = 1;
   repeated Server servers = 2;
 }
 
